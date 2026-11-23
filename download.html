@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>農薬選択ゲームをダウンロード</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f4f3e9;color:#203b2e;font:16px/1.8 system-ui,sans-serif;padding:24px}main{width:min(100%,580px);padding:36px;background:#fffef8;border:1px solid #dce1d3;border-radius:20px}h1{font-size:25px;margin:0 0 16px}p{margin:12px 0}.button{display:block;width:100%;font:inherit;text-align:center;background:#2c6844;color:white;padding:14px;border:0;border-radius:10px;text-decoration:none;font-weight:700;margin:24px 0;cursor:pointer}.button:disabled{opacity:.6;cursor:wait}small{display:block;color:#657466}a{color:#2c6844}
+</style>
+</head>
+<body>
+<main>
+<h1>農薬選択ゲームをダウンロード</h1>
+<p id="status" role="status" aria-live="polite">下のボタンから、アプリのHTMLファイルを保存できます。</p>
+<button id="download" class="button" type="button">HTMLをダウンロード</button>
+<p>保存した <strong>農薬選択ゲーム.html</strong> をブラウザで開いてご利用ください。</p>
+<small>写真・スクリプト・スタイルを含むHTMLファイル1つで、オフラインでも利用できます。ダウンロード時には通信が必要です。</small>
+<p><small>原案・権利者：鎌田英一郎（長崎大学准教授）。改編・改変などの二次利用には、権利者の事前の許諾が必要です。公開・配布によって、これらの利用を許諾するものではありません。</small></p>
+<p><small>気象や病害虫のデータは教材用の仮想値であり、実際の農薬使用を指示するものではありません。</small></p>
+<p><a href="./LICENSE.txt">ライセンス・権利表記</a></p>
+<p><a href="./index.html">ブラウザでそのまま使う</a></p>
+</main>
+<script>
+const button=document.getElementById('download');
+const status=document.getElementById('status');
+button.addEventListener('click',async()=>{
+ button.disabled=true;
+ status.textContent='ダウンロードを準備しています。';
+ try{
+  const response=await fetch('./index.html',{cache:'no-store'});
+  if(!response.ok)throw new Error('download failed');
+  const url=URL.createObjectURL(new Blob([await response.text()],{type:'text/html;charset=utf-8'}));
+  const a=document.createElement('a');
+  a.href=url;a.download='農薬選択ゲーム.html';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  status.textContent='保存操作を開始しました。端末のダウンロード一覧をご確認ください。';
+ }catch(error){
+  status.textContent='ダウンロードできませんでした。通信状態を確認し、もう一度お試しください。';
+ }finally{button.disabled=false;}
+});
+</script>
+</body>
+</html>
